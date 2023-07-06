@@ -1,0 +1,199 @@
+
+
+--The first few questions will ask about the project dataset, which you can access here. Read through the project information on Campus if you have not already.
+
+--1. How many users in the control group were in Canada? This question is required.*
+SELECT * 
+FROM users u
+LEFT JOIN groups g
+ON u.id = g.uid
+WHERE g.group='A' AND country='CAN';
+
+
+Answer
+c. 767
+
+____________________________________________________________________________________________________________________________________________________________________
+
+--2. What was the conversion rate of all users? This question is required.*
+
+SELECT CAST(COUNT(DISTINCT a.uid) * 100.0 / COUNT(DISTINCT u.id) AS DECIMAL(10, 2)) AS Conversion_rate
+FROM users u
+LEFT JOIN activity a
+ON u.id = a.uid;
+
+Answer
+B.4.28%
+
+____________________________________________________________________________________________________________________________________________________________________
+
+
+--3. As of February 1st, 2023, how many users were in the A/B test?
+
+SELECT *
+FROM groups g
+WHERE g.join_dt <= '2023-02-01'
+
+Answer
+C. 41,412
+
+
+____________________________________________________________________________________________________________________________________________________________________
+/*4. Can a user show up more than once in the activity table? Yes or no, and why? This question is required.*
+A
+Yes, a user can make purchases on multiple days
+B
+No, a user can only be in the experiment once
+C
+Yes, but it’s a bug in the data
+D
+No, a user can only purchase once*/
+
+Answer
+A
+
+
+____________________________________________________________________________________________________________________________________________________________________
+
+
+/*5. Which of the following ways to increase statistical power are most likely to be out of our control? This question is required.*
+A
+All of these are under our direct control
+B
+Increasing the sample size
+C
+Decreasing variability of the dataset
+D
+Increasing the significance level
+
+Answer
+Option D, increasing the significance level, is most likely to be out of our control.
+
+The significance level (usually denoted by α) is a pre-defined threshold that determines the probability of rejecting the null hypothesis when it is actually true. Typically, a significance level of 0.05 (5%) is used in hypothesis testing, which means that there is a 5% chance of rejecting the null hypothesis when it is actually true.
+
+The significance level is determined by the researcher or the organization conducting the study, and it represents a trade-off between the risk of making a Type I error (rejecting the null hypothesis when it is actually true) and the risk of making a Type II error (failing to reject the null hypothesis when it is actually false).
+
+In contrast, the other options listed in the question (increasing the sample size and decreasing variability of the dataset) are factors that are typically under the control of the researcher or can be influenced through the design of the study. By increasing the sample size, we can reduce the impact of random variation and increase the power of our statistical tests. Similarly, by reducing the variability of the dataset (e.g., by controlling for confounding factors or using a more precise measurement instrument), we can increase the power of our statistical tests.
+
+WRONG
+Your answer: Increasing the significance level
+Correct answer: Decreasing the variability of the dataset
+
+We can directly control our significance level when we set it at the beginning of our experiment or study. We can increase the sample size to an extent by collecting more data when allowed by budget and time. However, the variability of the sample data is not under our control, because it is based on the underlying behavior or phenomena we are studying. See more explanations in this Khan Academy video.
+
+
+____________________________________________________________________________________________________________________________________________
+
+
+/* 6.Which is a way that we can consistently decrease the margin of error for a confidence interval? This question is required.*
+A
+Increase the sample size
+B
+Subset the dataset
+C
+All of these are ways to decrease the margin of error
+D
+Increase the confidence level
+
+Answer
+
+The correct answer is A, "Increase the sample size".
+
+The margin of error (MOE) for a confidence interval is affected by several factors, including the sample size, the variability of the data, and the desired confidence level. To consistently decrease the MOE, we need to increase the sample size. This is because, as the sample size increases, the variability of the data becomes smaller, which results in a smaller MOE for the same confidence level.
+
+In contrast, subsetting the dataset (option B) is not a reliable way to decrease the MOE because it reduces the sample size and can introduce bias into the data.
+
+Option C is technically correct, but it is a bit misleading because it implies that increasing the confidence level can decrease the MOE, which is not true. Increasing the confidence level widens the interval and increases the MOE, all else being equal.
+
+Therefore, the best way to consistently decrease the MOE for a confidence interval is to increase the sample size, assuming that the data are collected and analyzed appropriately.
+
+_____________________________________________________________________________________________________________________________________________________________________
+
+/* 7. Would A/B test results be considered paired data? Yes or no, and why? This question is required.*
+A
+No, because A/B testing involves each user only seeing one version of the test
+B
+Yes, because A/B testing involves comparing two versions of the same thing
+C
+No, because A/B testing involves three or more different versions
+D
+Yes, because A/B testing involves each user seeing both versions of the test
+
+ChatGPT
+The answer is A, "No, because A/B testing involves each user only seeing one version of the test".
+
+In A/B testing, a sample of users is randomly assigned to either a control group or a treatment group, with each group being shown a different version of the test. The results are then compared to see if there is a statistically significant difference between the two groups.
+
+Since each user only sees one version of the test (either the control or the treatment), the data collected from the two groups are independent of each other, and therefore not paired.
+
+Paired data typically involve measuring the same variable or outcome twice for each unit of analysis, such as before and after a treatment, or in a matched case-control study. In contrast, in A/B testing, each unit of analysis (i.e., each user) is only measured once, and the data from the two groups are not linked or paired in any way.
+
+Therefore, the answer is "No, because A/B testing involves each user only seeing one version of the test".
+
+____________________________________________________________________________________________________________________________________________________________________
+
+/* 8. Why is it best practice to set our significance level before we see our results? This question is required.*
+A
+Because otherwise, we could change the significance level so our results appear significant, which would introduce bias
+B
+It is actually not the best practice, because it’s fine to set the significance level after seeing the results
+C
+Because we must get it approved by other stakeholders before proceeding with the study/experiment
+D
+Because the significance level changes our p-value calculations
+
+ChatGPT
+The correct answer is A, "Because otherwise, we could change the significance level so our results appear significant, which would introduce bias."
+
+Setting the significance level before seeing the results helps to minimize the risk of introducing bias into the analysis. The significance level is the probability threshold that we use to determine whether a result is statistically significant or not. It is typically set at 0.05 (or 5%) in most scientific studies, which means that if a p-value is less than 0.05, we consider the result statistically significant.
+
+If we set the significance level after seeing the results, we may be tempted to adjust the threshold to make the results appear more significant than they actually are. This is known as "p-hacking" or "data dredging," and it can lead to false positives and a higher likelihood of Type I errors.
+
+Therefore, it is best practice to set the significance level before conducting the analysis, and to stick to that level throughout the analysis. This helps to ensure that the results are objective, reproducible, and not influenced by our personal biases or preferences.
+
+Option B is incorrect because it is not considered best practice to set the significance level after seeing the results. Option C is also incorrect because the significance level is typically determined by the researchers or statisticians, not by external stakeholders. Option D is not completely incorrect, but it is not the main reason why we set the significance level before seeing the results. The significance level does affect our p-value calculations, but that is a consequence of setting the threshold, not the reason for doing so.
+
+____________________________________________________________________________________________________________________________________________________________________
+
+
+9. The image here shows a 95% confidence interval using the normal distribution for the difference in means between groups in an A/B test. What conclusion can we draw from this image? This question is required.*
+sprint1quiz_CI_diff
+A
+We are 95% confident that the true difference between the means is between 1.6 and 2.5.
+B
+95% of the users in both groups had values between 1.6 and 2.5, and the mean was 2.1.
+C
+There isn’t enough information here to make any conclusions.
+D
+The true difference in means is 2.1, and in 95% of our samples we can expect to observe a difference between 1.6 and 2.5.
+
+
+
+The correct answer is A.
+
+The image shows a 95% confidence interval for the difference in means between groups in an A/B test. A confidence interval is a range of values that we are fairly confident (95% confident in this case) contains the true population parameter (the difference in means).
+
+From the image, we can see that the confidence interval ranges from 1.6 to 2.5. Therefore, we can conclude that we are 95% confident that the true difference between the means is between 1.6 and 2.5.
+
+Option B is incorrect because it confuses the confidence interval with the range of values for the individual users. Option C is incorrect because we can make a conclusion based on the information given in the image. Option D is incorrect because it assumes that the true difference in means is 2.1, which is the midpoint of the confidence interval. However, the true difference in means could be any value between 1.6 and 2.5 with a 95% level of confidence.
+____________________________________________________________________________________________________________________________________________________________________
+
+10. Consult the scenario in the previous question. Let’s say we run an equivalent hypothesis test using the normal distribution and 𝛼=0.05 with the following hypotheses. What would be the conclusion of that hypothesis test? This question is required.*
+Hint: watch this video
+
+Screenshot 2023-04-10 at 11.13.29 AM
+A
+An “equivalent hypothesis test” does not exist
+B
+We don’t have enough information to make a conclusion
+C
+Reject the null hypothesis
+D
+Fail to reject the null hypothesis
+
+ChatGPT
+Without the null and alternative hypotheses for the hypothesis test, we cannot determine the conclusion of the test. However, assuming that the null hypothesis is that there is no difference in means between the two groups and the alternative hypothesis is that there is a difference in means, we can proceed with the answer.
+
+Using the information from the previous question (95% confidence interval for the difference in means between groups: 1.6 to 2.5), we can conclude that the confidence interval does not contain 0. Therefore, we would reject the null hypothesis that there is no difference in means between the two groups and accept the alternative hypothesis that there is a difference in means.
+
+So the answer is C, Reject the null hypothesis.
